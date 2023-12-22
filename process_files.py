@@ -120,8 +120,8 @@ def test3():
     print(ans_estudiante_0['3'])
         
 def test2():
-    email_password = "Uff2021..*"
-    sender_email_address = "agudelojairo@hotmail.com"
+    email_password = "PASS"
+    sender_email_address = "email1"
 
 
     mess_text = "Buenas tardes, \n" \
@@ -131,7 +131,7 @@ def test2():
 
     ourmailsender = MailSender(sender_email_address, email_password, ('smtp.office365.com', 587))
     ourmailsender.set_message(mess_text, "Esto es un ensayo")
-    ourmailsender.set_recipients(["helpu1409@gmail.com","henry.arcila@udea.edu.co"])
+    ourmailsender.set_recipients(["email1","email3"])
     ourmailsender.connect()
     ourmailsender.send_all()
 
