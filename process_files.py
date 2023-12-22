@@ -11,7 +11,8 @@ studens_df = pd.read_csv('encuestados.csv',
                          sep=';')
 
 encuesta_df = pd.read_csv('preguntas.csv', 
-                         index_col='num',                          
+                         index_col='num', 
+                         dtype = {'num': int, 'enunciado':'string' ,'p_min':'int', 'p_max':'int'},                         
                          sep=';')
 
 
@@ -43,6 +44,18 @@ def getStudentData(id):
     return studens_df.loc[id][['est_name', 'cel', 'email']].values.tolist()
 
 def getQuestion(num):
+    """
+    Retorna la lista de items asociados a la pregunta
+
+    Parameters:
+        num (int): Numero de la pregunta
+
+    Returns:
+       list: Lista con el contenido del enunciado, el puntaje minimo y el puntaje maximo de la pregunta num
+
+    Requeriments:
+       Que el numero de la pregunta exista (pendiente validacion)   
+    """
     return encuesta_df.loc[num].values.tolist()  
 
 def getAnswers(id):
@@ -53,7 +66,45 @@ def getAnswers(id):
     #print(answers)
     return answers
 
+def modificarPregunta(num, enunciado, p_min = None, p_max = None):
+    """
+    Modifica la lista de preguntas
 
+    Parameters:
+        num (int): Numero de la pregunta a modificar
+        enunciado (str): Enunciado de la pregunta a modificar
+        p_min (int): Puntaje minimo asociado a la pregunta
+        p_max (int): Puntaje maximo asociado a la pregunta
+    Returns:
+       None.
+    Requeriments:
+       Que el numero de la pregunta exista (pendiente validacion)   
+    '''
+    """
+    # Actualizacion del enunciado
+    encuesta_df.at[num,'enunciado']= enunciado
+    # Actualizacion del puntaje minimo de la pregunta
+    if p_min == None:
+        encuesta_df.at[num,'p_min'] = 0
+    else:
+        encuesta_df.at[num,'p_min'] = p_min
+    # Actualizacion del puntaje maximo de la pregunta
+    if p_max == None:
+        encuesta_df.at[num,'p_min'] = 0
+    else:
+        encuesta_df.at[num,'p_max'] = p_max
+
+def agregarPregunta(enunciado, p_min = None, p_max = None):    
+    encuesta_df.loc[len(encuesta_df) + 1] = [enunciado, p_min, p_max]
+    """
+    new_question = {
+        'enunciado': enunciado,
+        'p_min': p_min,
+        'p_max': p_max,
+        }
+    df_question = pd.DataFrame(new_question)
+    encuesta_df = df_question.append(new_question, ignore_index=True)
+    """
 
 """
 Funciones de test
@@ -84,8 +135,6 @@ def test2():
     ourmailsender.connect()
     ourmailsender.send_all()
 
-
-
 def test1():
     print("--- Todo el CVS de los estudiantes ---")    
     print(studens_df)
@@ -100,9 +149,37 @@ def test1():
     print(getQuestion(3))
     print()
 
+def test4():
+    print("Test 4 - Modificar preguntas")
+    print("Encuesta antes de ser modificada")
+    print(encuesta_df)
+    print("Test modificar")
+    print(modificarPregunta(1,"ensayo"))
+    print(modificarPregunta(2,"ensayo2",1,5))
+    print("Encuesta despues de ser modificada")
+    print(encuesta_df)
+    print("Items de la pregunta 1:", end = ' ')
+    print(getQuestion(1))
+    
+
+def test5():
+    print("Test 5 - Agregar preguntas")
+    print("Encuesta antes de ser modificada")
+    print(encuesta_df)
+    agregarPregunta("Enunciado agregado 1")
+    print("---> Encuesta despues agregar la primera pregunta")
+    print("Numero de preguntas:", len(encuesta_df))
+    print(encuesta_df)
+    print("---> Encuesta despues agregar la segunda pregunta")
+    agregarPregunta("Enunciado agregado 2",1,5)
+    print("Numero de preguntas:", len(encuesta_df))
+    print(encuesta_df)
+    
 if __name__ == '__main__':
     # test1()
     # test2()
-    test3()
+    # test3()
+    # test4()
+    test5()
     print("Test listos")
     

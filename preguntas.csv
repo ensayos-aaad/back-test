@@ -1,4 +1,4 @@
-num;enunciado
-1;¿Que tal le parecio la materia?
-2;¿Que tal le parecio la metodologia empleada por el profesor?
-3;¿Que tal le parecio la metodologia empleada por el profesor?
+num;enunciado;p_min;p_max
+1;¿Que tal le parecio la materia?;0;10
+2;¿Que tal le parecio la metodologia empleada por el profesor?;0;10
+3;¿Que tal le parecio la metodologia empleada por el profesor?;0;10
