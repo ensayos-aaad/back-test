@@ -58,6 +58,22 @@ def getQuestion(num):
     """
     return encuesta_df.loc[num].values.tolist()  
 
+def getAllQuestions():
+    """
+    Retorna la lista de items asociados a la pregunta
+
+    Parameters:
+        None
+
+    Returns:
+       list: Lista con todo el contenido de la encuencuesta incluyendo preguntas.
+
+    Requeriments:
+       Que el numero de la pregunta exista (pendiente validacion)   
+    """
+    return encuesta_df.values.tolist()  
+
+
 def getAnswers(id):
     str_answers = respuestas_df.loc[id].values.tolist()[0]    
     #print(type(str_answers))
@@ -65,6 +81,8 @@ def getAnswers(id):
     answers = json.loads(str_answers)
     #print(answers)
     return answers
+
+
 
 def modificarPregunta(num, enunciado, p_min = None, p_max = None):
     """
@@ -90,7 +108,7 @@ def modificarPregunta(num, enunciado, p_min = None, p_max = None):
         encuesta_df.at[num,'p_min'] = p_min
     # Actualizacion del puntaje maximo de la pregunta
     if p_max == None:
-        encuesta_df.at[num,'p_min'] = 0
+        encuesta_df.at[num,'p_max'] = 10
     else:
         encuesta_df.at[num,'p_max'] = p_max
 
@@ -118,7 +136,7 @@ def test3():
     print(ans_estudiante_0['1'])
     print(ans_estudiante_0['2'])
     print(ans_estudiante_0['3'])
-        
+
 def test2():
     email_password = "PASS"
     sender_email_address = "email1"
@@ -181,5 +199,6 @@ if __name__ == '__main__':
     # test3()
     # test4()
     test5()
+    print(getAllQuestions())
     print("Test listos")
     
